@@ -112,10 +112,10 @@ app.use(xhub({
 
 
 
-  var port = normalizePort(process.env.PORT || '3000');
+  var port = normalizePort(process.env.PORT || '80');
 
   app.set('port', port);
-  app.set('secPort',port+443);
+  app.set('secPort',443);
 
   /**
   * Create HTTP server.

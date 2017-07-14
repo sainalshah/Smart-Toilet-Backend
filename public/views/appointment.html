@@ -1,0 +1,47 @@
+<div class="container" >
+  <div class="row">
+    <div class="col-sm-offset3 col-sm-6">
+      <h1>Patient Appointment </h1>
+    </div>
+  </div>
+
+  <div class="appointment">
+  <label>Patients Name</label>
+          <input type="text" id="query" ng-model="query"/>
+
+          <select name="singleSelect" ng-model="Select" ng-change="onChanged(Select)" >
+            <option value="" disabled selected>Select your option</option>
+            <option value="0" ng-click="changetable(0)">Show All</option>
+            <option value="1"  ng-click="changetable(1)">Show Pending</option>
+            <option value="2"  ng-click="changetable(2)">Show Confirmed</option>
+          </select>
+        </div>
+  <div class="row">
+    <table class="table table-striped table-bordered display " id="list">
+      <thead>
+        <tr>
+          <th>Patient Name</th>
+          <th>Appointment</th>
+          <th>Appointment Time</th>
+          <th>Action(s)</th>
+        </tr>
+      </thead>
+      <tbody class="table-hover">
+        <tr ng-repeat="e in patients | filter:query | filter:search">
+          <td>{{e.name}}</td>
+          <td>{{e.appointment_date| date:'yyyy-MM-dd '}}</td>
+          <td><span ng-if="e.appointment_time">{{e.appointment_time}}</span><span ng-if="!e.appointment_time">Pending</span></td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Patient Info</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Confirm Appointment</button>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+    <span>Number of Patients: {{patients.length}}</span>
+
+  </div>
+</div>

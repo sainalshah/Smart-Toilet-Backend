@@ -1,0 +1,34 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node_modules/.bin/nodemon server.js"
+  },
+  "dependencies": {
+    "aws-sdk": "*",
+    "bcrypt-nodejs": "0.0.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.3",
+    "express": "^4.11.0",
+    "express-session": "^1.15.3",
+    "express-x-hub": "^1.0.4",
+    "jade": "*",
+    "jsonwebtoken": "^7.4.1",
+    "mysql": "^2.13.0",
+    "nodemailer": "^4.0.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "password-hash": "^1.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "body-parser": "~1.16.0",
+    "morgan": "~1.7.0",
+    "debug": "~2.6.0",
+    "express": "~4.14.1",
+    "jade": "~1.11.0",
+    "serve-favicon": "~2.3.2",
+    "mysql": "^2.13.0"
+  }
+}

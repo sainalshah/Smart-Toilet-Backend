@@ -6,6 +6,7 @@
     "start": "node_modules/.bin/nodemon server.js"
   },
   "dependencies": {
+    "request-promise": "*",
     "aws-sdk": "*",
     "bcrypt-nodejs": "0.0.3",
     "connect-flash": "^0.1.1",

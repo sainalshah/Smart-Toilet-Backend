@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('confusionApp')
-.constant("baseURL","https://localhost:3443/")
+//.constant("baseURL","https://localhost:3443/")
+.constant("baseURL","https://ec2-13-229-53-106.ap-southeast-1.compute.amazonaws.com")
+
 .service('accountFactory', ['$resource', 'baseURL', function($resource,baseURL) {
   this.login = function () {
 

@@ -6,8 +6,9 @@
     "start": "node_modules/.bin/nodemon server.js"
   },
   "dependencies": {
-    "tiny-worker": "*",
-    "later": "*",
+    "tiny-worker":"*",
+    "later":"*",
+    "request": "*",
     "request-promise": "*",
     "aws-sdk": "*",
     "bcrypt-nodejs": "0.0.3",

@@ -16,11 +16,11 @@ var dbconfig = require('./database');
 ***REMOVED***
 ***REMOVED***
 var connection = mysql.createConnection({
-  host     : "127.0.0.1",
-  user     : "testuser",
+***REMOVED***
+***REMOVED***
 ***REMOVED***
   port     : 3306,
-  database : "testdb"
+  database : "fyp"
 });
 
 connection.connect(function(err) {

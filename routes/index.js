@@ -58,6 +58,26 @@ router.get('/clinic',function(req, res) {
   });
 
 });
+
+
+router.get('/scan/:id',function(req, res){
+  console.log("id is ",req.params.id);
+  console.log("success");
+  //var sql = 'SELECT result_id, isNormal FROM fyp.Scan_analysis , Scan_result , parameter_has_scan_result where Scan_result.result_id =parameter_has_scan_result.result_id , parameter_has_scan_result.analysis_id = Scan_result.analysis_id , user_id=? , order by result_id desc Limit 2 ;';
+  var sql = 'SELECT fyp.Parameter_has_scan_result.parameter_id, fyp.Parameter_has_scan_result.result_id,patient_id, isNormal FROM fyp.Scan_analysis ,User, Scan_result , Parameter_has_scan_result where Scan_result.result_id =Parameter_has_scan_result.result_id and Parameter_has_scan_result.analysis_id = Scan_analysis.analysis_id and Scan_result.patient_id=User.user_id and patient_id=?  order by Scan_result.scan_date desc Limit 2 ;'
+  //var sql = 'Select * FROM User where user_id = ?;';
+  connection.query(sql,[req.params.id], function(err, result, fields) {
+    if (err) throw err;
+    // console.log("staff id: " + staff[0].staff_id);
+    // console.log("just now entered password is correct: "+pwdHash.verify(pwd, staff[0].password));
+    // console.log("password from database: "+staff[0].password);
+    console.log("success");
+    console.log(result);
+    var success = {data:result};
+    res.json(success);
+  });
+
+});
 router.get('/patient/:id', users.isLoggedIn,function(req, res){
   console.log("hi");
   //console.log("message "+id);
@@ -67,9 +87,9 @@ router.get('/patient/:id', users.isLoggedIn,function(req, res){
   var user_id = req.params.id;
   console.log(user_id);
   console.log("in the get appointment");
-//var sql = 'Select clinic_email from Clinic where clinic_id=?'   ;
- var sql = 'Select name ,appointment_date ,appointment_time, url_hash from User , Appointment where User.user_id = Appointment.patient_id and Appointment.is_confirmed =true and Appointment.clinic_id = ? '  ;
-//var sql = 'Select User.name ,Appointment.appointment_date ,Appointment.appointment_time, Appointment.url_hash from  User , Appointment  where User.user_id = Appointment.patient_id  and Appointment.is_confirmed=false and Appointment.clinic_id = ? ';
+  //var sql = 'Select clinic_email from Clinic where clinic_id=?'   ;
+  var sql = 'Select name ,appointment_date ,appointment_time, url_hash from User , Appointment where User.user_id = Appointment.patient_id and Appointment.is_confirmed =true and Appointment.clinic_id = ? '  ;
+  //var sql = 'Select User.name ,Appointment.appointment_date ,Appointment.appointment_time, Appointment.url_hash from  User , Appointment  where User.user_id = Appointment.patient_id  and Appointment.is_confirmed=false and Appointment.clinic_id = ? ';
   connection.query(sql,[user_id], function(err, rows, fields) {
     if(err) throw err;
     console.log(rows);

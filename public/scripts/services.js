@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('confusionApp')
-//.constant("baseURL","https://localhost:3443/")
-.constant("baseURL","https://ec2-13-228-111-202.ap-southeast-1.compute.amazonaws.com/")
+.constant("baseURL","https://localhost:3443/")
+// .constant("baseURL","https://ec2-13-228-111-202.ap-southeast-1.compute.amazonaws.com/")
 
 .service('accountFactory', ['$resource', 'baseURL', function($resource,baseURL) {
   this.login = function () {
@@ -36,6 +36,7 @@ angular.module('confusionApp')
   };
 
 }])
+
 .service('appointmentService', ['$resource', 'baseURL', function($resource,baseURL) {
   this.LoadPatient = function () {
     return $resource(baseURL+"appointment/:id",null,

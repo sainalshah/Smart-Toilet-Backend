@@ -23,6 +23,7 @@
           <th>Patient Name</th>
           <th>Appointment</th>
           <th>Appointment Time</th>
+          <th>Url</th>
           <th>Action(s)</th>
         </tr>
       </thead>
@@ -30,12 +31,11 @@
         <tr ng-repeat="e in patients | filter:query | filter:search">
           <td>{{e.name}}</td>
           <td>{{e.appointment_date| date:'yyyy-MM-dd '}}</td>
-          <td><span ng-if="e.appointment_time">{{e.appointment_time}}</span><span ng-if="!e.appointment_time">Pending</span></td>
-          <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Patient Info</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Confirm Appointment</button>
-          </td>
+          <td>{{e.appointment_time}}</td>
+          <td><a href="{{e.url_hash}}">{{e.url_hash}}</a></td>
 
+          <td> <button ng-show="e.is_confirmed==true" type="button" class="btn btn-primary"  ng-click="PassID(e)">Doctor Feedback</button>
+            <button ng-show="e.is_confirmed==false || e.is_confirmed===null" type="button" class="btn btn-primary" ng-click="PassID(e)" >Confirm Appointment</button></td>
         </tr>
 
       </tbody>

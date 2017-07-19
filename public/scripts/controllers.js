@@ -88,9 +88,12 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
   $scope.pending=[] ;
 
   $scope.PassID = function(value){
+    console.log(value);
     adviceService.ID= value.user_id;
+        adviceService.Name= value.name;
     if(value.is_confirmed){
       $location.path("advice");
+
     }
   }
 
@@ -138,21 +141,23 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
   })
 }])
 
-.controller('adviceCtrl', function($scope,$location,adviceService) {
-  $scope.data = {hydration_value:"", ph_value:"", glucose_value:"", clinic_name:"SGH", hydrationadvice_data:"", glucoseadvice_data:"", phadvice_data:"", user_name:"Darrel", clinic_id:"",advice_datetime:""};
+.controller('adviceCtrl', function($scope,$location,AuthenticationService,adviceService) {
+  $scope.data = { ph:"", glucose:"", patient_view:"", clinic_id:"",comment_date:""};
   $scope.data.advice_datetime = new Date();
-  $scope.data.user_id = 2;
-  $scope.data.clinic_id = 2;
-  $scope.sendAdvice = function () {
+  $scope.data.user_id = adviceService.ID;
+  $scope.data.name = adviceService.Name;
+
+  console.log($scope.data.user_id );
+  console.log($scope.data.name);
+  $scope.data.clinic_id = AuthenticationService.verifiedUser.clinic_id;
+  $scope.sendfeedback = function () {
     console.log($scope.data);
-    adviceService.getAdvice().save($scope.data,function (success){
-      console.log(success);
-      $scope.error=success;
-      console.log(success);
-      $scope.error=success;
-      if(success.code == 0){
-        console.log("here");
-        $location.path('/');
+    adviceService.getfeedback().save($scope.data,function (success){
+      console.log("In the get feedback");
+console.log(success);
+      if(success.result.code == 1){
+        console.log("Sucess");
+        $location.path('/appointment');
       }
     },
     function (error) {

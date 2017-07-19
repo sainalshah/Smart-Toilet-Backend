@@ -54,7 +54,7 @@ angular.module('confusionApp')
 }])
 .service('adviceService', ['$resource', 'baseURL', function($resource,baseURL) {
   this.ID = null;
-  this.getAdvice = function () {
+  this.getfeedback = function () {
 
     return $resource(baseURL+"advice/:id",null,
     {'update':{method:'PUT' }});

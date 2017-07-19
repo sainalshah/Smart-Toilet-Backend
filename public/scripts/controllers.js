@@ -86,14 +86,23 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
   var userId = $rootScope.userinfo.clinic_id;
   $scope.confirmed=[] ;
   $scope.pending=[] ;
-
+  $scope.confirmData = {date:"",time:"",clinic_id:AuthenticationService.verifiedUser.clinic_id};
   $scope.PassID = function(value){
     adviceService.ID= value.user_id;
     if(value.is_confirmed){
       $location.path("advice");
     }
-  }
+  };
+  $scope.showConfirmModal = function (appointment_id) {
+    // $('#confirmModal').data('bs.modal').handleUpdate();
 
+      $scope.confirmData.appointment_id = appointment_id;
+    $("#confirmModal").modal();
+  }
+  $scope.confirm = function () {
+    console.log($scope.confirmData);
+    appointmentService.LoadPatient().update($scope.confirmData);
+  }
 
   $scope.onChanged=function(val){
     if(val==0 ){

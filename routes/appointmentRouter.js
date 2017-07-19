@@ -60,9 +60,9 @@ appmtRouter.route('/')
   console.log(sql);
   connection.query(sql, function(err, success, fields) {
     if (err){
-       throw err;
-       res.json({result:{code:0,msg:"error"}});
-     };
+      throw err;
+      res.json({result:{code:0,msg:"error"}});
+    };
     console.log(success);
     var value = "";
     for (item in req.body) {
@@ -80,58 +80,74 @@ appmtRouter.route('/')
         res.json({result:{code:0,msg:"error"}});
         throw err;
       };
-        console.log("hash value updated");
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-      ***REMOVED***
-      ***REMOVED***
-          }
-        });
-        url = "http://localhost:3000/appointment/"+hash;
-        console.log("url: "+url);
-        // setup email data with unicode symbols
-        let mailOptions = {
-          from: '"SITF" <sitf.2017@gmail.com>', // sender address
-          to: 'sainaledava@gmail.com', // list of receivers
-          subject: 'Appointment Request', // Subject line
-          html: '<h1>Appointment Request</h1>There is a new appointment request<br/>'+
-          '<a href="'+url+'">Click here</a> to launch web app'// html body
-        };
+      console.log("hash value updated");
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+    ***REMOVED***
+    ***REMOVED***
+        }
+      });
+      url = "http://localhost:3000/appointment/"+hash;
+      console.log("url: "+url);
+      // setup email data with unicode symbols
+      let mailOptions = {
+        from: '"SITF" <sitf.2017@gmail.com>', // sender address
+        to: 'sainaledava@gmail.com', // list of receivers
+        subject: 'Appointment Request', // Subject line
+        html: '<h1>Appointment Request</h1>There is a new appointment request<br/>'+
+        '<a href="'+url+'">Click here</a> to launch web app'// html body
+      };
 
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            res.json({result:{code:0,msg:"error"}});
-          }
-          console.log('Message %s sent: %s', info.messageId, info.response);
-          res.json({result:{code:1,msg:"success"}});
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          res.json({result:{code:0,msg:"error"}});
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+        res.json({result:{code:1,msg:"success"}});
 
-        });
       });
     });
-
   });
 
-  appmtRouter.route('/:id')
-  .get( users.isLoggedIn ,function(req, res) {
+})
+.put( users.isLoggedIn ,function(req, res) {
 
-    var IS_CONFIRMED = false ;
-    //console.log("message "+id);
-    var user_id = req.params.id;
-    console.log(user_id);
-    console.log("in the get appointment");
+  console.log(req.body);
+  console.log("in the update appointment");
+  var sql = `update Appointment set appointment_date=?, appointment_time=?,is_confirmed=true
+  where appointment_id=?`;
+  connection.query(sql,[req.body.date,req.body.time,req.body.appointment_id], function(err,success, fields) {
+    if(err) {
+
+      res.json({});;
+      throw err
+    };
+    var success = {success:true};
+    res.json(success);
+  });
+});
+
+appmtRouter.route('/:id')
+.get( users.isLoggedIn ,function(req, res) {
+
+  var IS_CONFIRMED = false ;
+  //console.log("message "+id);
+  var user_id = req.params.id;
+  console.log(user_id);
+  console.log("in the get appointment");
   //var sql = 'Select clinic_email from Clinic where clinic_id=?'   ;
-   var sql = 'Select user_id ,name ,is_confirmed,appointment_date ,appointment_time, url_hash from User , Appointment where User.user_id = Appointment.patient_id and Appointment.clinic_id = ? '  ;//var sql = 'Select User.name ,Appointment.appointment_date ,Appointment.appointment_time, Appointment.url_hash from  User , Appointment  where User.user_id = Appointment.patient_id  and Appointment.is_confirmed=false and Appointment.clinic_id = ? ';
-    connection.query(sql,[user_id], function(err, rows, fields) {
-      if(err) throw err;
-      console.log(rows);
-      var success = {data:rows};
-      res.json(success);
-    });
+  var sql = 'Select appointment_id, user_id ,name ,is_confirmed,appointment_date ,appointment_time, url_hash from User , Appointment where User.user_id = Appointment.patient_id and Appointment.clinic_id = ? '  ;//var sql = 'Select User.name ,Appointment.appointment_date ,Appointment.appointment_time, Appointment.url_hash from  User , Appointment  where User.user_id = Appointment.patient_id  and Appointment.is_confirmed=false and Appointment.clinic_id = ? ';
+  connection.query(sql,[user_id], function(err, rows, fields) {
+    if(err) throw err;
+    console.log(rows);
+    var success = {data:rows};
+    res.json(success);
   });
+});
 
 
 
-  module.exports = appmtRouter;
+module.exports = appmtRouter;

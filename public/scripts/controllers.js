@@ -111,9 +111,14 @@ function($scope,$rootScope,AuthenticationService,appointmentService,
     console.log($scope.confirmData);
     appointmentService.LoadPatient().update($scope.confirmData,function (res) {
       if(res.success){
-        for (var i = 0; i < pending.length; i++) {
-          if($scope.pending[i].appointment_id == $scope.confirmData.appointment_id){
-              $scope.confirmed.push($scope.pending.splice(i,1));
+        console.log("$scope.patients", $scope.patients);
+        for (var i = 0; i < $scope.patients; i++) {
+          if($scope.patients[i].appointment_id == $scope.confirmData.appointment_id){
+              $scope.patients[i].appointment_time = $scope.confirmData.time;
+              $scope.patients[i].appointment_date = $scope.confirmData.date;
+              $scope.patients[i].is_confirmed = true;
+              $scope.apply();
+              confirmed.push($scope.patients[i]);
           }
         }
       }
@@ -128,7 +133,7 @@ function($scope,$rootScope,AuthenticationService,appointmentService,
       $scope.patients=pending
       console.log(pending);
     }else if(val==2){
-      $scope.patients=confirmed
+      $scope.patients=confirmed;
       console.log(confirmed);
     }
   }

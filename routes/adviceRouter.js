@@ -40,12 +40,18 @@ connection.connect(function(err) {
 
 appmtRouter.use(bodyParser.json());
 appmtRouter.route('/')
-.post( function(req, res) {
+.post(users.isLoggedIn ,function(req, res) {
   //console.log(req);
-  sql = "INSERT INTO Medical_advice (user_id,clinic_id,ph_value,things_to_do_ph,glucose_value,things_to_do_glucose,hydration_value,things_to_do_hydration,advice_datetime) VALUES (?,?,?,?,?,?,?,?,?)";
+  var view = false ;
+  sql = "INSERT INTO Doctor_feedback (ph_level, glucose_level, comment, patient_view, comment_date,user_id,clinic_id) VALUES (?,?,?,?,NOW(),?,?)";
   console.log(sql);
   console.log(req.body);
-  connection.query(sql,[req.body.user_id,req.body.clinic_id,req.body.ph_value,req.body.phadvice_data,req.body.glucose_value,req.body.phadvice_data,req.body.hydration_value,req.body.hydrationadvice_data,req.body.advice_datetime], function(err, success, fields) {
+  if(req.body.patientview==null){
+    view = 0;
+  }else {
+    view = 1 ;
+  }
+  connection.query(sql,[req.body.ph,req.body.glucose,req.body.comment,view,req.body.user_id,req.body.clinic_id], function(err, success, fields) {
     if (err){
       throw err;
       res.json({result:{code:0,msg:"error"}});

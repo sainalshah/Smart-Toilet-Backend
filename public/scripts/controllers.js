@@ -80,20 +80,45 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
     });
   });
 }])
-.controller('AppointmentController', ['$scope','$rootScope', 'AuthenticationService', 'appointmentService' ,'adviceService','$location',function($scope,$rootScope,AuthenticationService,appointmentService,adviceService,$location) {
+.controller('AppointmentController', ['$scope','$rootScope', 'AuthenticationService',
+'appointmentService' ,'adviceService','$location',
+function($scope,$rootScope,AuthenticationService,appointmentService,
+  adviceService,$location) {
 
   console.log("user is "+AuthenticationService.verifiedUser);
   var userId = $rootScope.userinfo.clinic_id;
   $scope.confirmed=[] ;
   $scope.pending=[] ;
-
+  $scope.confirmData = {date:"",time:"",clinic_id:AuthenticationService.verifiedUser.clinic_id};
   $scope.PassID = function(value){
     adviceService.ID= value.user_id;
     if(value.is_confirmed){
       $location.path("advice");
     }
-  }
+  };
 
+  $scope.history = function (appointment_id) {
+    // $('#confirmModal').data('bs.modal').handleUpdate();
+    $location.path("history");
+  }
+  $scope.showConfirmModal = function (appointment_id) {
+    // $('#confirmModal').data('bs.modal').handleUpdate();
+
+      $scope.confirmData.appointment_id = appointment_id;
+    $("#confirmModal").modal();
+  }
+  $scope.confirm = function () {
+    console.log($scope.confirmData);
+    appointmentService.LoadPatient().update($scope.confirmData,function (res) {
+      if(res.success){
+        for (var i = 0; i < pending.length; i++) {
+          if($scope.pending[i].appointment_id == $scope.confirmData.appointment_id){
+              $scope.confirmed.push($scope.pending.splice(i,1));
+          }
+        }
+      }
+    });
+  }
 
   $scope.onChanged=function(val){
     if(val==0 ){
@@ -138,21 +163,23 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
   })
 }])
 
-.controller('adviceCtrl', function($scope,$location,adviceService) {
-  $scope.data = {hydration_value:"", ph_value:"", glucose_value:"", clinic_name:"SGH", hydrationadvice_data:"", glucoseadvice_data:"", phadvice_data:"", user_name:"Darrel", clinic_id:"",advice_datetime:""};
+.controller('adviceCtrl', function($scope,$location,AuthenticationService,adviceService) {
+  $scope.data = { ph:"", glucose:"", patient_view:"", clinic_id:"",comment_date:""};
   $scope.data.advice_datetime = new Date();
-  $scope.data.user_id = 2;
-  $scope.data.clinic_id = 2;
-  $scope.sendAdvice = function () {
+  $scope.data.user_id = adviceService.ID;
+  $scope.data.name = adviceService.Name;
+
+  console.log($scope.data.user_id );
+  console.log($scope.data.name);
+  $scope.data.clinic_id = AuthenticationService.verifiedUser.clinic_id;
+  $scope.sendfeedback = function () {
     console.log($scope.data);
-    adviceService.getAdvice().save($scope.data,function (success){
-      console.log(success);
-      $scope.error=success;
-      console.log(success);
-      $scope.error=success;
-      if(success.code == 0){
-        console.log("here");
-        $location.path('/');
+    adviceService.getfeedback().save($scope.data,function (success){
+      console.log("In the get feedback");
+console.log(success);
+      if(success.result.code == 1){
+        console.log("Sucess");
+        $location.path('/appointment');
       }
     },
     function (error) {

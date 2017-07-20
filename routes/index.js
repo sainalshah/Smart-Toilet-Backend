@@ -48,12 +48,33 @@ router.post('/connectFb',function(req, res) {
 });
 router.get('/clinic',function(req, res) {
   var sql = 'SELECT * FROM Clinic';
+  var lat1 = '44.968046';   //req.body.lat1;
+  var lon1 = '-94.420307';  //req.body.lon1;
   connection.query(sql, function(err, clinic, fields) {
     if (err) throw err;
-    // console.log("staff id: " + staff[0].staff_id);
-    // console.log("just now entered password is correct: "+pwdHash.verify(pwd, staff[0].password));
-    // console.log("password from database: "+staff[0].password);
+    clinicGlobal = clinic;
     console.log(clinic);
+    var nearestClinicIndex = 0;
+    for (var i = 0; i < clinic.length; i++) {
+      url = "http://maps.googleapis.com/maps/api/directions/json?origin=" +
+      lat1 + "," + lon1 + "&destination=" + clinic[i].co_ordinates +"&sensor=false&units=metric&mode=driving";
+      request({
+        uri: url
+      }).then(body => {
+        var data = JSON.parse(body);
+        console.log("success!!!",data.routes[0].legs[0].distance);
+        newDistance = data.routes[0].legs[0].distance.value;
+        console.log(clinicGlobal);
+        // clinicGlobal[i].distance = newDistance;
+        // if(clinicGlobal[nearestClinicIndex].distance > newDistance){
+        //   nearestClinicIndex = i;
+        // }
+      }, (error) => {
+        console.error("Unable to request distance");
+        console.error(error);
+      });
+    }
+    console.log("nearest clinic:",clinic[nearestClinicIndex]);
     res.json(clinic);
   });
 

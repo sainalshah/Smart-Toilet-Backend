@@ -80,7 +80,10 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
     });
   });
 }])
-.controller('AppointmentController', ['$scope','$rootScope', 'AuthenticationService', 'appointmentService' ,'adviceService','$location',function($scope,$rootScope,AuthenticationService,appointmentService,adviceService,$location) {
+.controller('AppointmentController', ['$scope','$rootScope', 'AuthenticationService',
+'appointmentService' ,'adviceService','$location',
+function($scope,$rootScope,AuthenticationService,appointmentService,
+  adviceService,$location) {
 
   console.log("user is "+AuthenticationService.verifiedUser);
   var userId = $rootScope.userinfo.clinic_id;
@@ -88,14 +91,16 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
   $scope.pending=[] ;
   $scope.confirmData = {date:"",time:"",clinic_id:AuthenticationService.verifiedUser.clinic_id};
   $scope.PassID = function(value){
-    console.log(value);
     adviceService.ID= value.user_id;
-        adviceService.Name= value.name;
     if(value.is_confirmed){
       $location.path("advice");
-
     }
   };
+
+  $scope.history = function (appointment_id) {
+    // $('#confirmModal').data('bs.modal').handleUpdate();
+    $location.path("history");
+  }
   $scope.showConfirmModal = function (appointment_id) {
     // $('#confirmModal').data('bs.modal').handleUpdate();
 
@@ -104,7 +109,15 @@ function ($scope, $rootScope, $location, AuthenticationService,accountFactory) {
   }
   $scope.confirm = function () {
     console.log($scope.confirmData);
-    appointmentService.LoadPatient().update($scope.confirmData);
+    appointmentService.LoadPatient().update($scope.confirmData,function (res) {
+      if(res.success){
+        for (var i = 0; i < pending.length; i++) {
+          if($scope.pending[i].appointment_id == $scope.confirmData.appointment_id){
+              $scope.confirmed.push($scope.pending.splice(i,1));
+          }
+        }
+      }
+    });
   }
 
   $scope.onChanged=function(val){

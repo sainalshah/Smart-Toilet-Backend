@@ -20,7 +20,7 @@ var generalRoutes = require('./routes/index');
 var settingRoutes = require('./routes/settingsRouter');
 var adviceRoutes = require('./routes/adviceRouter');
 var scanDataRouter = require('./routes/scanRouter');
-
+var NotificationRouter= require('./routes/Notificationrouter');
 var debug = require('debug')('rest-server:server');
 var http = require('http');
 var https = require('https');
@@ -108,6 +108,7 @@ app.use(xhub({
   app.use('/parameter',settingRoutes);
   app.use('/advice',adviceRoutes);
   app.use('/scandata',scanDataRouter);
+  app.use('/notification',NotificationRouter);
   app.locals.theme = process.env.THEME; //Make the THEME environment variable available to the app.
 
 

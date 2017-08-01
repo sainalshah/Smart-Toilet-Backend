@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql      = require('mysql');
+var request = require('request-promise');
 //var connection = mysql.createConnection('mysql://b6f61539e0b3f6:1fa9e50f@us-cdbr-iron-east-04.cleardb.net/heroku_4af0ef73ab05633?reconnect=true');
 // var url = process.env.CLEARDB_DATABASE_URL || 'mysql://root@localhost/mydb?reconnect=true';
 // var connection = mysql.createConnection(url);
@@ -46,36 +47,80 @@ router.post('/connectFb',function(req, res) {
     res.json({status:0});
   });
 });
-router.get('/clinic',function(req, res) {
+function sort(clinics) {
+  for (i = 0; i < clinics.length-1; i++) {
+    smallestPos = i;
+    for (j = i; j < clinics.length; j++) {
+      if(clinics[j].distance < clinics[smallestPos].distance){
+        smallestPos = j;
+      }
+    }
+    temp = clinics[i];
+    clinics[i] = clinics[smallestPos];
+    clinics[smallestPos] = temp;
+  }
+  return clinics;
+}
+
+var distanceResultCount = 0;
+function getDistance(url, clinic,index,res){
+  request({
+    uri: url
+  }).then(body => {
+    distanceResultCount++;
+    var data = JSON.parse(body);
+    if(data.routes[0]){
+      console.log("success!!!",data.routes[0].legs[0].distance);
+      newDistance = data.routes[0].legs[0].distance.value;
+      // console.log(clinicGlobal);
+      console.log("current iteration: ",index);
+      clinic[index].distance = newDistance;
+    } else {
+      console.log("error finding distance\n",body);
+      console.log(url);
+    }
+    if(distanceResultCount >= clinic.length){
+      console.log("sending back data\n",clinic);
+      res.json(sort(clinic));
+    }
+  }, (error) => {
+    console.error("Unable to request distance");
+    console.error(error);
+  });
+};
+
+function produceShortName(clinicName) {
+  MAX_ALLOWED_LENGTH = 16;
+  if(clinicName.length>MAX_ALLOWED_LENGTH){
+    return clinicName.substring(0, MAX_ALLOWED_LENGTH)+" ...";
+  }
+  return clinicName;
+};
+router.get('/clinic/:id',function(req, res) {
   var sql = 'SELECT * FROM Clinic';
-  var lat1 = '44.968046';   //req.body.lat1;
-  var lon1 = '-94.420307';  //req.body.lon1;
+  //
+  // var lat1 = '44.968046';   //req.body.lat1;
+  // var lon1 = '-94.420307';  //req.body.lon1;
+  var location = req.params.id; // id is the location
+  console.log(location);
   connection.query(sql, function(err, clinic, fields) {
     if (err) throw err;
-    clinicGlobal = clinic;
-    console.log(clinic);
-    var nearestClinicIndex = 0;
-    for (var i = 0; i < clinic.length; i++) {
-      url = "http://maps.googleapis.com/maps/api/directions/json?origin=" +
-      lat1 + "," + lon1 + "&destination=" + clinic[i].co_ordinates +"&sensor=false&units=metric&mode=driving";
-      request({
-        uri: url
-      }).then(body => {
-        var data = JSON.parse(body);
-        console.log("success!!!",data.routes[0].legs[0].distance);
-        newDistance = data.routes[0].legs[0].distance.value;
-        console.log(clinicGlobal);
-        // clinicGlobal[i].distance = newDistance;
-        // if(clinicGlobal[nearestClinicIndex].distance > newDistance){
-        //   nearestClinicIndex = i;
-        // }
-      }, (error) => {
-        console.error("Unable to request distance");
-        console.error(error);
-      });
+    // console.log(clinic);
+
+
+    if(location){
+      console.log("found lat and long", location);
+      for (var i = 0; i < clinic.length; i++) {
+        url = "http://maps.googleapis.com/maps/api/directions/json?origin=" +
+        location+ "&destination=" + clinic[i].coordinates +"&sensor=false&units=metric&mode=driving";
+        clinic[i].shortName = produceShortName(clinic[i].clinic_name);
+        getDistance(url,clinic,i,res);
+      }
     }
-    console.log("nearest clinic:",clinic[nearestClinicIndex]);
-    res.json(clinic);
+    else{
+      console.log("lat and lng not send with request");
+      res.json(clinic);
+    }
   });
 
 });

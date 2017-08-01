@@ -31,7 +31,24 @@ angular.module('confusionApp', ['ui.router','ngResource',
       }
     }
   })
-  
+  .state('app.ViewFeedback', {
+    url: 'ViewFeedback',
+    views: {
+      'content@': {
+        templateUrl: 'views/ViewFeedback.html',
+        controller: 'ViewFeedbackCtrl'
+      }
+    }
+  })
+  .state('app.ConfirmAppointment', {
+    url: 'ConfirmAppointment',
+    views: {
+      'content@': {
+        templateUrl: 'views/ConfirmAppointment.html',
+        controller: 'ConfirmAppointmentCtrl'
+      }
+    }
+  })
   .state('app.advice', {
     url: 'advice',
     views: {

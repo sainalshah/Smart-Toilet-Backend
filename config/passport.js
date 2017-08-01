@@ -116,6 +116,7 @@ module.exports = function(passport) {
               }
               newUserMysql.clinic_id = rows.insertId;
               console.log("new user created, with id: "+newUserMysql.clinic_id);
+              newUserMysql.role_id = 2;
               return done(null, newUserMysql);
             });
           }
@@ -148,6 +149,7 @@ module.exports = function(passport) {
           // all is well, return successful user
           req.user_data=rows[0];
           req.user_data.password="";
+          rows[0].role_id = 2;
           return done(null, rows[0]);
         });
       })
@@ -181,12 +183,13 @@ module.exports = function(passport) {
               phone_number: req.body.contact,
               name : req.body.name,
               role_id: req.body.role_id,
+              postal_code : req.body.postal_code
             };
             console.log(newUserMysql);
             var insertQuery = "INSERT INTO User ( user_email, password, phone_number,name,"+
-            "role_id ) values (?,?,?,?,?)";
+            "role_id,postal_code ) values (?,?,?,?,?,?)";
 
-            connection.query(insertQuery,[newUserMysql.username, newUserMysql.password,newUserMysql.phone_number,newUserMysql.name,newUserMysql.role_id],
+            connection.query(insertQuery,[newUserMysql.username, newUserMysql.password,newUserMysql.phone_number,newUserMysql.name,newUserMysql.role_id,newUserMysql.postal_code],
               function(err, rows) {
                 if(err){
                   throw err;
@@ -224,6 +227,7 @@ module.exports = function(passport) {
             // all is well, return successful user
             req.user_data=rows[0];
             req.user_data.password="";
+            rows[0].role_id = 1;
             return done(null, rows[0]);
           });
         })

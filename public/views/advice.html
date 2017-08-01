@@ -14,23 +14,25 @@
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-3" for="ph">pH level: </label>
-        <div class="col-sm-5">
-          <input type = "radio" value=0 name="ph" ng-model="data.ph"/>Good &nbsp;
-          <input type = "radio" value=1 name="ph"  ng-model="data.ph"/>Bad
+        <label class="control-label col-sm-3" for="ph">pH Indicator: </label>
+        <div class="col-sm-7">
+          <input type = "radio" value="Acidic" name="ph" ng-model="data.ph"/>Acidic &nbsp;
+          <input type = "radio" value="Neutral" name="ph" ng-model="data.ph"/>Neutral &nbsp;
+          <input type = "radio" value="Alkaline" name="ph"  ng-model="data.ph"/>Alkaline
         </div>
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-3" for="glucose">glucose level: </label>
-        <div class="col-sm-5">
-          <input type = "radio" value=0 name="glucose" ng-model="data.glucose"/>Good &nbsp;
-          <input type = "radio" value=1 name="glucose" ng-model="data.glucose"/>Bad
+        <label class="control-label col-sm-3" for="glucose">glucose Indicator: </label>
+        <div class="col-sm-7">
+          <input type = "radio" value="Diabetic" name="glucose" ng-model="data.glucose"/>Diabetic &nbsp;
+          <input type = "radio" value="Imparied" name="glucose" ng-model="data.glucose"/>Impaired &nbsp;
+          <input type = "radio" value="Normal" name="glucose"  ng-model="data.glucose"/>Normal
         </div>
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-3" for="comment">Comment:  </label>
+        <label class="control-label col-sm-3" for="comment">Feedback for Patient:  </label>
         <div class="col-sm-5">
           <textarea rows="4" cols="50" name="comment" placeholder="Enter your comment here." ng-model="data.comment"/>
           <input type = "checkbox" name="patientview" ng-model="data.patientview"/>Allow patient to view

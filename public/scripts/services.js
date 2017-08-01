@@ -36,7 +36,15 @@ angular.module('confusionApp')
   };
 
 }])
-
+.service('adviceService', ['$resource', 'baseURL', function($resource,baseURL) {
+  var service = {};
+  service.verifiedComment = {};
+  this.ID = null;
+  this.getfeedback = function() {
+    return $resource(baseURL+"advice/:id",null,
+    {'update':{method:'PUT' }});
+  };
+}])
 .service('appointmentService', ['$resource', 'baseURL', function($resource,baseURL) {
   this.LoadPatient = function () {
     return $resource(baseURL+"appointment/:id",null,

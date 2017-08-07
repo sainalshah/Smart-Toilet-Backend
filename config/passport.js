@@ -76,10 +76,10 @@ module.exports = function(passport) {
   function insertNewDoctor(newUserMysql,done) {
 
     console.log(newUserMysql);
-    var insertQuery = `INSERT INTO Clinic ( clinic_email, password,clinic_name, clinic_address, role_id,
-    postal_code,phone_number,coordinates ) values (?,?,?,?,?,?,?,?)`;
+    var insertQuery = `INSERT INTO Clinic ( clinic_email, password,clinic_name, clinic_address,
+    postal_code,phone_number,coordinates ) values (?,?,?,?,?,?,?)`;
       connection.query(insertQuery,[newUserMysql.username, newUserMysql.password,
-        newUserMysql.name,newUserMysql.address, newUserMysql.role_id,newUserMysql.postal,
+        newUserMysql.name,newUserMysql.address,newUserMysql.postal,
         newUserMysql.phone_number,newUserMysql.coordinates],
         function(err, rows) {
           if(err){
@@ -95,9 +95,9 @@ module.exports = function(passport) {
 
         console.log(newUserMysql);
         var insertQuery = `INSERT INTO User ( user_email, password, phone_number,name,
-          postal_code,coordinates,role_id ) values (?,?,?,?,?,?,?)`;
+          postal_code,coordinates ) values (?,?,?,?,?,?)`;
           connection.query(insertQuery,[newUserMysql.username, newUserMysql.password,
-            newUserMysql.phone_number,newUserMysql.name,newUserMysql.postal_code,newUserMysql.coordinates,1],
+            newUserMysql.phone_number,newUserMysql.name,newUserMysql.postal_code,newUserMysql.coordinates],
             function(err, rows) {
               if(err){
                 throw err;

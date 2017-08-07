@@ -13,7 +13,7 @@
 //Get modules.
 var express = require('express');
 var routes = require('./routes');
-
+var alertModule = require('./config/alert');
 var botRouter = require('./routes/botRouter');
 var appmtRouter = require('./routes/appointmentRouter');
 var generalRoutes = require('./routes/index');
@@ -113,7 +113,7 @@ app.use(xhub({
   app.use('/notification',NotificationRouter);
   app.locals.theme = process.env.THEME; //Make the THEME environment variable available to the app.
 
-
+  alertModule();
 
   var port = normalizePort(process.env.PORT || '3000');
 

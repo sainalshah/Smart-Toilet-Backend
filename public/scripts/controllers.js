@@ -14,7 +14,7 @@ angular.module('confusionApp')
   //     }
   ***REMOVED***
 
-  historyService.getData().get({id:2},function (success)  {
+  historyService.getData().get({id:1},function (success)  {
     console.log("Scan data retrieved successful!");
     $scope.results = success.data;
     // console.log($scope.results.length);
@@ -124,7 +124,7 @@ angular.module('confusionApp')
   var labels = [];
   var data = [];
 
-  historyService.getData().get({id:2},function (success) {
+  historyService.getData().get({id:1},function (success) {
     console.log("Scan data retrieved successful!");
     $scope.results = success.data;
     angular.forEach($scope.results, function(value, key) {

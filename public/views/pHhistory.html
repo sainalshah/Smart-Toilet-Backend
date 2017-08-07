@@ -1,0 +1,36 @@
+<div class="container">
+    <div>
+        <div class="btn btn-default" ng-click="redirGlucose()">Glucose</div>
+    </div>
+    <div>
+        <div class="btn btn-default">pH</div>
+    </div>
+    <div class="row row-header">
+        <div class="col-sm-6 col-sm-push-3">
+            <nav class="navbar navbar-default">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="isActive">
+                            <a href="" ng-click="filter(0)">Today <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="filter(1)">This Week</a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="filter(2)">This Month</a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="filter(3)">Past 3 Months</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div style="width:90%;">
+        <canvas id="chartID"></canvas>
+    </div>
+</div>
+<script src="bower_components/chart.js/dist/Chart.min.js"></script>
+<script src="bower_components/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js"></script>
+<!-- <script src="../scripts/lib/Chart.Bands.js-master/Chart.Bands.min.js"></script> -->

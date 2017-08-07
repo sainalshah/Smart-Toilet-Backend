@@ -16,9 +16,9 @@
       <div class="form-group">
         <label class="control-label col-sm-3" for="ph">pH Indicator: </label>
         <div class="col-sm-7">
-          <input type = "radio" value="Acidic" name="ph" ng-model="data.ph"/>Acidic &nbsp;
-          <input type = "radio" value="Neutral" name="ph" ng-model="data.ph"/>Neutral &nbsp;
-          <input type = "radio" value="Alkaline" name="ph"  ng-model="data.ph"/>Alkaline
+          <input type = "radio" value="Acidosis" name="ph" ng-model="data.ph"/>Acidosis &nbsp;
+          <input type = "radio" value="Alkalosis" name="ph"  ng-model="data.ph"/>Alkalosis &nbsp;
+          <input type = "radio" value="Normal" name="ph" ng-model="data.ph"/>Normal
         </div>
       </div>
 
@@ -35,7 +35,6 @@
         <label class="control-label col-sm-3" for="comment">Feedback for Patient:  </label>
         <div class="col-sm-5">
           <textarea rows="4" cols="50" name="comment" placeholder="Enter your comment here." ng-model="data.comment"/>
-          <input type = "checkbox" name="patientview" ng-model="data.patientview"/>Allow patient to view
         </div>
       </div>
 

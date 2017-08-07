@@ -52,7 +52,12 @@ angular.module('confusionApp')
   };
 
 }])
-
+.service('historyService', ['$resource', 'baseURL', function($resource,baseURL) {
+  this.getData = function () {
+    return $resource(baseURL+"scandata/historic/:id",null,
+    {'update':{method:'PUT' }});
+  };
+}])
 .service('patientService', ['$resource', 'baseURL', function($resource,baseURL) {
   this.LoadConfirmedAppointment = function () {
     return $resource(baseURL+"patient/:id",null,
@@ -105,15 +110,20 @@ function (Base64, $http, $cookies, $rootScope, $timeout, $window) {
   service.SetCredentials = function (user) {
     service.verifiedUser = user;
     $rootScope.userinfo = user;
-    console.log("service.verifiedUser is ");
-    console.log(service.verifiedUser);
+    console.log("$rootScope.userinfo is ");
+    console.log($rootScope.userinfo);
+    var now = new $window.Date(),
+    exp = new $window.Date(now.getFullYear(), now.getMonth()+6, now.getDate());// this will set the expiration to 6 months
+    console.log("cookie expires: "+exp);
+    $cookies.putObject('userinfo', $rootScope.userinfo, {'expires': exp});
   };
 
   service.ClearCredentials = function () {
     $rootScope.userinfo = {};
     service.verifiedUser = {};
+    console.log("clearing user info");
     $cookies.remove('userinfo');
-    $http.defaults.headers.common.Authorization = 'Basic ';
+    // $http.defaults.headers.common.Authorization = 'Basic ';
   };
 
   return service;

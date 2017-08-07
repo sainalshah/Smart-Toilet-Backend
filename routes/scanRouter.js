@@ -68,16 +68,17 @@ scanRouter.route('/')
 scanRouter.route('/:id')
 .get(function(req, res){
   console.log("id is ",req.params.id);
-  console.log("success");
+  console.log("success from scan router");
   //var sql = 'SELECT result_id, isNormal FROM fyp.Scan_analysis , Scan_result , parameter_has_scan_result where Scan_result.result_id =parameter_has_scan_result.result_id , parameter_has_scan_result.analysis_id = Scan_result.analysis_id , user_id=? , order by result_id desc Limit 2 ;';
   var sql = `SELECT fyp.Parameter_has_scan_result.parameter_id,
-  fyp.Parameter_has_scan_result.result_id,patient_id,
-  isNormal FROM fyp.Scan_analysis ,User, Scan_result , Parameter_has_scan_result
-  where Scan_result.result_id =Parameter_has_scan_result.result_id
-  and Parameter_has_scan_result.analysis_id = Scan_analysis.analysis_id
-  and Scan_result.patient_id=User.user_id
-  and Scan_result.patient_id=?
-  order by Scan_result.scan_date desc Limit 2 ;`
+fyp.Parameter_has_scan_result.result_id,patient_id,
+isNormal FROM fyp.Scan_analysis ,User, Scan_result ,
+Parameter_has_scan_result where
+Scan_result.result_id =Parameter_has_scan_result.result_id
+and Parameter_has_scan_result.analysis_id = Scan_analysis.analysis_id
+and Scan_result.patient_id=User.user_id
+and patient_id=?
+order by  fyp.Parameter_has_scan_result.result_id desc, Scan_result.scan_date desc Limit 2;`
   //var sql = 'Select * FROM User where user_id = ?;';
   connection.query(sql,[req.params.id], function(err, result, fields) {
     if (err) throw err;
@@ -96,14 +97,14 @@ scanRouter.route('/historic/:id')
   console.log("id is ",req.params.id);
   console.log("success");
   //var sql = 'SELECT result_id, isNormal FROM fyp.Scan_analysis , Scan_result , parameter_has_scan_result where Scan_result.result_id =parameter_has_scan_result.result_id , parameter_has_scan_result.analysis_id = Scan_result.analysis_id , user_id=? , order by result_id desc Limit 2 ;';
-  var sql = `SELECT fyp.Parameter_has_scan_result.parameter_id,
-  fyp.Parameter_has_scan_result.result_id,patient_id,
-  isNormal FROM fyp.Scan_analysis ,User, Scan_result , Parameter_has_scan_result
-  where Scan_result.result_id =Parameter_has_scan_result.result_id
-  and Parameter_has_scan_result.analysis_id = Scan_analysis.analysis_id
-  and Scan_result.patient_id=User.user_id
-  and Scan_result.patient_id=?
-  order by Scan_result.scan_date;`
+  var sql = `SELECT PSR.disease_has_result_id, PSR.parameter_id, PSR.result_id,
+SR.patient_id, SA.isNormal, DATE_FORMAT(SR.scan_date, "%Y-%m-%d") AS scan_date, DATE_FORMAT(SR.scan_date, "%H:%m:%s") AS scan_time, PSR.reading_json
+FROM Scan_analysis SA, User U, Scan_result SR, Parameter_has_scan_result PSR
+ where SR.result_id = PSR.result_id
+ and PSR.analysis_id = SA.analysis_id
+ and SR.patient_id= U.user_id
+ and SR.patient_id=?
+ order by SR.scan_date;`
   //var sql = 'Select * FROM User where user_id = ?;';
   connection.query(sql,[req.params.id], function(err, result, fields) {
     if (err) throw err;
@@ -117,7 +118,5 @@ scanRouter.route('/historic/:id')
   });
 
 });
-
-
 
 module.exports = scanRouter;

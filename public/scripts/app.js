@@ -31,6 +31,25 @@ angular.module('confusionApp', ['ui.router','ngResource',
       }
     }
   })
+  .state('app.pHhistory', {
+   url: 'pHHistory',
+   views: {
+     'content@': {
+       templateUrl : 'views/pHhistory.html',
+       controller  : 'pHhistoryCtrl'
+     }
+   }
+ })
+
+ .state('app.glucoseHistory', {
+   url: 'glucoseHistory',
+   views: {
+     'content@': {
+       templateUrl : 'views/glucoseHistory.html',
+       controller  : 'glucoseHistoryCtrl'
+     }
+   }
+ })
   .state('app.ViewFeedback', {
     url: 'ViewFeedback',
     views: {
@@ -61,8 +80,8 @@ angular.module('confusionApp', ['ui.router','ngResource',
 
   $urlRouterProvider.otherwise('/');
 })
-.run(['$rootScope', '$location', '$cookies', '$http',
-function ($rootScope, $location, $cookies, $http) {
+.run(['$rootScope', '$location', '$cookies', '$http', 'AuthenticationService',
+function ($rootScope, $location, $cookies, $http, AuthenticationService) {
   // keep user logged in after page refresh
   $rootScope.userinfo = $cookies.getObject('userinfo') || {};
   console.log("at app.js, the value in cookie is: ");
@@ -70,10 +89,13 @@ function ($rootScope, $location, $cookies, $http) {
   if(typeof $rootScope.userinfo === 'string'){
     $rootScope.userinfo = JSON.parse($rootScope.userinfo);
   }
-
+  if($rootScope.userinfo.clinic_id){
+    AuthenticationService.verifiedUser = $rootScope.userinfo;
+  }
   $rootScope.$on('$locationChangeStart', function (event, next, current) {
     // redirect to login page if not logged in
     if ($location.path() !== '/' && !$rootScope.userinfo.clinic_id) {
+      console.log("user id before force login, ",$rootScope.userinfo.clinic_id);
       $location.path('/');
     }
   });

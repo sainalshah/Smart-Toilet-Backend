@@ -15,7 +15,7 @@ var options = {
     "tokens": tokens,
     "profile": "gfc",
     "notification": {
-        "message": message;
+        "message": message
     }
 }
 };

@@ -37,9 +37,10 @@ var Worker = require("tiny-worker");
 
 
 
-var sched = later.parse.recur().every(24*60).minute(),
-t = later.setInterval(postWorkerJob, sched);
-
+// var sched = later.parse.recur().every(24*60).minute(),
+// t = later.setInterval(postWorkerJob, sched);
+setInterval (postWorkerJob,24*60*1000);
+// setInterval (postWorkerJob,60*1000); //1 minute interval
 function postWorkerJob() {
   console.log(new Date());
   var worker = new Worker(function () {
@@ -57,7 +58,7 @@ function postWorkerJob() {
 }
 function checkLastScanDate() {
   console.log("in the check last scan data ")
-  checkSql = `select U.name, U.fb_page_scope_id
+  checkSql = `select distinct U.name, U.fb_page_scope_id
   from Scan_result SR, User U
   where DATEDIFF(CURDATE(),SR.scan_date) > 2
   and SR.patient_id=U.user_id

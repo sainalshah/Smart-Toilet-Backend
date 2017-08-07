@@ -46,7 +46,7 @@ app.use(xhub({
   app.use(bodyParser.urlencoded({ extended: false }));
 
 
-  app.use(cookieParser()); // read cookies (needed for auth)
+***REMOVED*** // read cookies (needed for auth)
 
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -83,7 +83,9 @@ app.use(xhub({
   app.use(session({
 ***REMOVED***
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    maxAge: 20000,
+    cookie: { secure: true }
   } )); // session secret
   app.use(passport.initialize());
   app.use(passport.session()); // persistent login sessions

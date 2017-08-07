@@ -2,52 +2,63 @@
 <html lang="en" ng-app="confusionApp">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head
-  content must come *after* these tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags must come first in the head; any other head
+  content must come after these tags -->
 
-  <title>Medical Practitioner Web</title>
+    <title>Smart Toilet System</title>
 
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
 
 <body>
-  <div ui-view="header"></div>
-  <div ui-view="content"></div>
-  <div ui-view="footer"></div>
+    <div ui-view="header"></div>
+    <div ui-view="content"></div>
+    <div ui-view="footer"></div>
 
-  <!-- Bootstrap -->
-  <!-- build:css styles/main.css -->
-  <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-  <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <!-- <script href="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    <!-- build:css styles/main.css -->
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='../bower_components/fullcalendar/dist/fullcalendar.min.css' rel='stylesheet' />
+    <link href='../bower_components/fullcalendar/dist/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- <script href="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
-  <link href="styles/bootstrap-social.css" rel="stylesheet">
-  <link href="styles/mystyles.css" rel="stylesheet">
-  <!-- endbuild -->
-  <!-- build:js scripts/main.js -->
-  <script src="../bower_components/angular/angular.min.js"></script>
-  <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-  <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
-  <script src="../bower_components/angular-cookies/angular-cookies.min.js"></script>
-  <script src="../bower_components/angular-route/angular-route.min.js"></script>
-  <script src="../bower_components/chart.js/dist/Chart.min.js"></script>
-  <script src="../bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
-  <script src="scripts/app.js"></script>
-  <script src="scripts/controllers.js"></script>
-  <script src="scripts/services.js"></script>
+    <link href="styles/bootstrap-social.css" rel="stylesheet">
+    <link href="styles/mystyles.css" rel="stylesheet">
+    <!-- endbuild -->
+    <!-- build:js scripts/main.js -->
+    <script src='../bower_components/jquery/dist/jquery.min.js'></script>
+    <script src='../bower_components/moment/min/moment.min.js'></script>
+    <script src='../bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
+    <script src='../bower_components/fullcalendar/dist/gcal.min.js'></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src='../bower_components/angular-ui-calendar/src/calendar.js'></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="../bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="../bower_components/angular-route/angular-route.min.js"></script>
+    <script src="../scripts/lib/chart.js"></script>
+    <script src="../scripts/lib/angular-chart.js"></script>
+    <script src="../scripts/lib/date.format.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers.js"></script>
+    <script src="scripts/services.js"></script>
 
   <script src="scripts/lib/date.format.js"></script>
   <!-- endbuild -->

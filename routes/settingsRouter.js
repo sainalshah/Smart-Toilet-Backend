@@ -44,15 +44,28 @@ settingRouter.route('/')
   console.log(sqlglucose);
   connection.query(sqlph, function(err, success, fields) {
     if (err) throw err;
-    console.log(success);
+    console.log ;
   });
   connection.query(sqlglucose, function(err, success, fields) {
     if (err) throw err;
-    console.log(success);
+    console.log ;
   });
 
 });
 
+settingRouter.route('/settings/:id')
+.get(function(req, res) {
+  var user_id = req.params.id;
+  console.log(user_id);
+  console.log("in the get settings");
+  sql = "SELECT abnormal_threshold_days FROM User, Parameter_settings_for_user Where Parameter_settings_for_user.user_id = ? and Parameter_settings_for_user.user_id = User.user_id" ;
+  connection.query(sql,[user_id], function(err, rows, fields) {
+    if(err) throw err;
+    console.log(rows);
+    var success = {data:rows};
+    res.json(success) ;
+  });
+});
 
 
 module.exports = settingRouter;

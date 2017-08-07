@@ -98,6 +98,7 @@ function produceShortName(clinicName) {
 };
 router.get('/clinic/:id',function(req, res) {
   var sql = 'SELECT * FROM Clinic';
+  distanceResultCount = 0;
   //
   // var lat1 = '44.968046';   //req.body.lat1;
   // var lon1 = '-94.420307';  //req.body.lon1;
@@ -130,7 +131,15 @@ router.get('/scan/:id',function(req, res){
   console.log("id is ",req.params.id);
   console.log("success");
   //var sql = 'SELECT result_id, isNormal FROM fyp.Scan_analysis , Scan_result , parameter_has_scan_result where Scan_result.result_id =parameter_has_scan_result.result_id , parameter_has_scan_result.analysis_id = Scan_result.analysis_id , user_id=? , order by result_id desc Limit 2 ;';
-  var sql = 'SELECT fyp.Parameter_has_scan_result.parameter_id, fyp.Parameter_has_scan_result.result_id,patient_id, isNormal FROM fyp.Scan_analysis ,User, Scan_result , Parameter_has_scan_result where Scan_result.result_id =Parameter_has_scan_result.result_id and Parameter_has_scan_result.analysis_id = Scan_analysis.analysis_id and Scan_result.patient_id=User.user_id and patient_id=?  order by Scan_result.scan_date desc Limit 2 ;'
+  var sql = `SELECT fyp.Parameter_has_scan_result.parameter_id,
+fyp.Parameter_has_scan_result.result_id,patient_id,
+isNormal FROM fyp.Scan_analysis ,User, Scan_result ,
+Parameter_has_scan_result where
+Scan_result.result_id =Parameter_has_scan_result.result_id
+and Parameter_has_scan_result.analysis_id = Scan_analysis.analysis_id
+and Scan_result.patient_id=User.user_id
+and patient_id=?
+order by  fyp.Parameter_has_scan_result.result_id desc, Scan_result.scan_date desc Limit 2;`
   //var sql = 'Select * FROM User where user_id = ?;';
   connection.query(sql,[req.params.id], function(err, result, fields) {
     if (err) throw err;
@@ -144,7 +153,7 @@ router.get('/scan/:id',function(req, res){
   });
 
 });
-router.get('/patient/:id', users.isLoggedIn,function(req, res){
+router.get('/patient/:id', function(req, res){
   console.log("hi");
   //console.log("message "+id);
 

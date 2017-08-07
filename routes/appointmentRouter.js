@@ -8,7 +8,7 @@ var email = require("../config/sendEmail.js");
 //var connection = mysql.createConnection('mysql://b6f61539e0b3f6:1fa9e50f@us-cdbr-iron-east-04.cleardb.net/heroku_4af0ef73ab05633?reconnect=true');
 // var url = process.env.CLEARDB_DATABASE_URL || 'mysql://root@localhost/mydb?reconnect=true';
 // var connection = mysql.createConnection(url);
-
+var notifyModule = require("../config/newNotification.js");
 var users = require('./users.js');
 ***REMOVED***
 ***REMOVED***
@@ -81,33 +81,49 @@ appmtRouter.route('/')
         throw err;
       };
       console.log("hash value updated");
-      var emailoptions = {
-        to:"sainaledava@gmail.com",
-        subject:"New appointment request",
-        title:"Appointment request",
-        body: "There is a new appointment request",
-        url:"https://localhost:3443"
-      };
-      email(emailoptions,function (err,info) {
+
+      var getEmailSql = "select clinic_email from Clinic where clinic_id=?";
+      console.log("get email sql",getEmailSql);
+      connection.query(getEmailSql,[req.body.clinic_id], function (err, success, fields) {
         if(err)
+        throw err;
+        console.log(success);
+        var emailoptions = {
+          to:success[0].clinic_email,
+          subject:"New appointment request",
+          title:"Appointment request",
+          body: "There is a new appointment request. <br/>Visit the Medical Practitioner website to view the request",
+          url:"https://ec2-13-228-111-202.ap-southeast-1.compute.amazonaws.com/"
+        };
+        email(emailoptions,function (err,info) {
+          if(err)
           throw err;
-        console.log("email sent",info);
-        res.json({result:{code:1,msg:"success"}});
+          console.log("email sent",info);
+          res.json({result:{code:1,msg:"success"}});
+        });
       });
     });
   });
 })
 
-.put( users.isLoggedIn ,function(req, res) {
+.put( function(req, res) {
   console.log(req.body);
   console.log("in the update appointment");
-  var sql = `Update Appointment set appointment_date=?, appointment_time=?, is_confirmed=true where appointment_id=?`;
+  var sql = `Update Appointment set Confirmed_appointment_date=?, appointment_time=?, is_confirmed=true where appointment_id=?`;
   connection.query(sql,[req.body.date,req.body.time,req.body.appointment_id], function(err,success, fields) {
     if(err) {
 
       res.json({});
       throw err
     };
+    var options = {
+      appointment_id:req.body.appointment_id,
+      notification_type_id: 1,
+      message: "Your appointment is confirmed."
+    }
+    notifyModule.notify(connection,options,function() {
+      console.log("notification success");
+    });
     var success = {success:true};
     res.json(success);
   });
@@ -115,7 +131,7 @@ appmtRouter.route('/')
 
 
 appmtRouter.route('/:id')
-.get(users.isLoggedIn ,function(req, res) {
+.get(function(req, res) {
 
   var IS_CONFIRMED = false ;
   //console.log("message "+id);
@@ -123,12 +139,14 @@ appmtRouter.route('/:id')
   console.log(user_id);
   console.log("in the get appointment");
   //var sql = 'Select clinic_email from Clinic where clinic_id=?'   ;
-  var sql = `Select feedback_id ,appointment_id, user_id ,name ,is_confirmed,appointment_date ,date_format(appointment_time,"%r") as appointment_time, url_hash from User , Appointment where User.user_id = Appointment.patient_id and Appointment.clinic_id = ? `; //var sql = 'Select User.name ,Appointment.appointment_date ,Appointment.appointment_time, Appointment.url_hash from  User , Appointment  where User.user_id = Appointment.patient_id  and Appointment.is_confirmed=false and Appointment.clinic_id = ? ';
+  var sql =  `Select feedback_id ,appointment_id, user_id ,name,time_of_day ,is_confirmed,appointment_date,Confirmed_appointment_date ,
+DATE_FORMAT(appointment_time, "%r") as appointment_time, url_hash from User , Appointment  ,Time_of_day  where User.user_id = Appointment.patient_id and
+ Time_of_day.time_id = Appointment.Time_of_day_id and Appointment.clinic_id = ?   Order by appointment_date desc ,appointment_time desc ,is_confirmed desc` ;
   connection.query(sql,[user_id], function(err, rows, fields) {
     if(err) throw err;
     console.log(rows);
     var success = {data:rows};
-    res.json(success);
+    res.json(success) ;
   });
 });
 

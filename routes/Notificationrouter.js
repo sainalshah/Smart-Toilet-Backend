@@ -39,11 +39,11 @@ NotificationRouter.route('/:id')
   var user_id = req.params.id;
   console.log(user_id);
   console.log("in the get notifcation");
-  var sql = `(Select DATE_FORMAT(Appointment.appointment_time, "%r") as appointment_time ,
+  var sql = `(Select DATE_FORMAT(Appointment.appointment_time, "%r") as appointment_time ,Clinic.clinic_name,Clinic.clinic_address,Clinic.postal_code,
   DATE_FORMAT(Appointment.Confirmed_appointment_date,'%d/%m/%Y') as appointment_date,
 Notification.user_id , Notification.notification_type_id ,  Notification_type.type_description ,
- DATE_FORMAT(incident_time, '%H:%i%p') as time
- FROM  Notification , Notification_type,Appointment where
+ DATE_FORMAT(incident_time, "%r") as time
+ FROM  Notification , Notification_type,Appointment, Clinic where Appointment.clinic_id=Clinic.clinic_id and
 Notification_type.notification_type_id=Notification.notification_type_id
 and Appointment.appointment_id = Notification.appointment_id and Notification.user_id= ? Order by Notification.notification_id desc Limit 15)`;
   //var sql = 'Select User.name ,Appointment.appointment_date ,Appointment.appointment_time, Appointment.url_hash from  User , Appointment  where User.user_id = Appointment.patient_id  and Appointment.is_confirmed=false and Appointment.clinic_id = ? ';

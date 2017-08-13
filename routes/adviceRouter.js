@@ -71,7 +71,8 @@ adviceRouter.route('/')
             to:success[0].user_email,
             subject:"New Feedback",
             title:"New Feedback",
-            body: `There is a new feedback posted to you. <br/> <b>${req.body.comment}</b>`,
+            body: `There is a new feedback posted to you. <br/> <b>${req.body.ph}</b>
+            <br/><b>${req.body.glucose}</b> <br/><b>${req.body.comment}</b>`,
             url:"https://ec2-13-228-111-202.ap-southeast-1.compute.amazonaws.com/"
           };
           email(emailoptions,function (err,info) {

@@ -103,7 +103,7 @@ router.get('/clinic/:id',function(req, res) {
   // var lat1 = '44.968046';   //req.body.lat1;
   // var lon1 = '-94.420307';  //req.body.lon1;
   var location = req.params.id; // id is the location
-  console.log(location);
+  console.log("location recieved:  ",location);
   connection.query(sql, function(err, clinic, fields) {
     if (err) throw err;
     // console.log(clinic);

@@ -40,14 +40,14 @@ scanRouter.route('/')
       throw err;
     }
     console.log(outerSuccess);
-    analysisSql = "INSERT INTO Scan_analysis (isNormal,analysis_date) VALUES ('"+req.body.glucose.isNormal+"',NOW())";
+    analysisSql = `INSERT INTO Scan_analysis (isNormal,analysis_date) VALUES (${req.body.glucose.isNormal},NOW())`;
     console.log(analysisSql);
     connection.query(analysisSql, function(err, success, fields) {
       if (err){
         res.json({success:false});
         throw err;
       }
-      console.log(success);
+
       dataSql = "INSERT INTO Parameter_has_scan_result (result_id,parameter_id,reading_json,analysis_id) "+
       "VALUES ("+outerSuccess.insertId +",1"+",'"+req.body.glucose.raw+ "',"+success.insertId+")";
       console.log(dataSql);
@@ -56,15 +56,31 @@ scanRouter.route('/')
           res.json({success:false});
           throw err;
         }
-        console.log(success);
-        res.json({success:true});
+
+        analysisSql = `INSERT INTO Scan_analysis (isNormal,analysis_date) VALUES (${req.body.ph.isNormal},NOW())`;
+        console.log(analysisSql);
+        connection.query(analysisSql, function(err, success, fields) {
+          if (err){
+            res.json({success:false});
+            throw err;
+          }
+
+          dataSql = "INSERT INTO Parameter_has_scan_result (result_id,parameter_id,reading_json,analysis_id) "+
+          "VALUES ("+outerSuccess.insertId +",2"+",'"+req.body.ph.raw+ "',"+success.insertId+")";
+          console.log(dataSql);
+          connection.query(dataSql, function(err, success, fields) {
+            if (err){
+              res.json({success:false});
+              throw err;
+            }
+            res.json({success:true});
+          });
+        });
       });
     });
-
   });
-
-
 });
+
 scanRouter.route('/:id')
 .get(function(req, res){
   console.log("id is ",req.params.id);

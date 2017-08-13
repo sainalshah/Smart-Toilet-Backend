@@ -435,8 +435,12 @@ function($scope,$rootScope,AuthenticationService,appointmentService,
     $scope.data = {};
     $scope.data.name = adviceService.Name;
     console.log($scope.data.name);
-    var feedback_id = adviceService.feedback_id;
-    console.log(feedback_id);
+    if(adviceService.feedback_id){
+      var feedback_id = adviceService.feedback_id;
+      console.log(feedback_id);
+    }else{
+      $location.path('/appointment');
+    }
     adviceService.getfeedback().get({id:feedback_id},function (success) {
       console.log("feedback retrieval success");
       console.log(success);

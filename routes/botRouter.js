@@ -2,26 +2,17 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var passwordHash = require('password-hash');
 const nodemailer = require('nodemailer');
-const hashSalt = "fjsdklrepublic0149348.,9@kfzxmn";
+const hashSalt = "";
 var chatBotRouter = express.Router();
 var mysql      = require('mysql');
 var request = require('request-promise');
-***REMOVED***
-***REMOVED***
+var PAGE_ACCESS_TOKEN = ''
 var later = require('later');
 var users = require('./users.js');
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
 var connection = mysql.createConnection({
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  host     : "",
+  user     : "",
+  password : "",
   port     : 3306,
   database : "fyp"
 });
@@ -166,7 +157,7 @@ chatBotRouter.route('/test')
 chatBotRouter.route('/')
 .get(function(req, res, next) {
   if (req.query['hub.mode'] === 'subscribe' &&
-  req.query['hub.verify_token'] === 'mydearkuttichathan') {
+  req.query['hub.verify_token'] === '') {
     res.status(200).send(req.query['hub.challenge']);
     console.log("success");
   } else {

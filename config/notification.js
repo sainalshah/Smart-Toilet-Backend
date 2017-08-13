@@ -1,8 +1,6 @@
 var request = require("request");
 
 function sendNotification(tokens ,message , callback){
-***REMOVED***
-
 
 var options = {
   method: 'POST',

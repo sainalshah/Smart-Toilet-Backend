@@ -7,18 +7,10 @@ var LocalStrategy   = require('passport-local').Strategy;
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var request = require('request-promise');
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
 var connection = mysql.createConnection({
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  host     : "",
+  user     : "",
+  password : "",
   port     : 3306,
   database : "fyp"
 });

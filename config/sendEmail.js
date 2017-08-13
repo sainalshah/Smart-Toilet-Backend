@@ -6,8 +6,6 @@ function sendMail(options,callback) {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-***REMOVED***
-***REMOVED***
     }
   });
   // setup email data with unicode symbols

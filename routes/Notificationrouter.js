@@ -4,9 +4,9 @@ var NotificationRouter = express.Router();
 var mysql      = require('mysql');
 
 var connection = mysql.createConnection({
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  host     : "",
+  user     : "",
+  password : "",
   port     : 3306,
   database : "fyp"
 });

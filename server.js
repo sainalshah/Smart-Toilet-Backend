@@ -40,13 +40,13 @@ app.set('view engine', 'jade');
 
 app.use(xhub({
   algorithm: 'sha1',
-***REMOVED***
+  secret: ''}));
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
 
-***REMOVED*** // read cookies (needed for auth)
+  app.use(cookieParser('')); // read cookies (needed for auth)
 
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -56,6 +56,7 @@ app.use(xhub({
     ", Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     next();
   });
+  app.use('/messenger/webhook',botRouter);
   app.all('*', function(req, res, next){
     console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
     if (req.secure) {
@@ -65,7 +66,6 @@ app.use(xhub({
     res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
   });
 
-  app.use('/messenger/webhook',botRouter);
   var passport = require('passport');
   var flash    = require('connect-flash');
 
@@ -81,7 +81,7 @@ app.use(xhub({
 
   // required for passport
   app.use(session({
-***REMOVED***
+    secret: '',
     resave: true,
     saveUninitialized: true,
     maxAge: 20000,

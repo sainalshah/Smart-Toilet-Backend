@@ -10,19 +10,10 @@ var email = require("../config/sendEmail.js");
 // var connection = mysql.createConnection(url);
 var notifyModule = require("../config/newNotification.js");
 var users = require('./users.js');
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
 var connection = mysql.createConnection({
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  host     : "",
+  user     : "",
+  password : "",
   port     : 3306,
   database : "fyp"
 });

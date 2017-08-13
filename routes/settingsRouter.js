@@ -5,23 +5,10 @@ const nodemailer = require('nodemailer');
 const hashSalt = "fjsdklrepublic0149348.,9@kfzxmn";
 var settingRouter = express.Router();
 var mysql      = require('mysql');
-//var connection = mysql.createConnection('mysql://b6f61539e0b3f6:1fa9e50f@us-cdbr-iron-east-04.cleardb.net/heroku_4af0ef73ab05633?reconnect=true');
-// var url = process.env.CLEARDB_DATABASE_URL || 'mysql://root@localhost/mydb?reconnect=true';
-// var connection = mysql.createConnection(url);
-
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
 var connection = mysql.createConnection({
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  host     : "",
+  user     : "",
+  password : "",
   port     : 3306,
   database : "fyp"
 });

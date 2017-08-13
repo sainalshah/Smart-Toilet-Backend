@@ -7,26 +7,10 @@ var request = require('request-promise');
 // var connection = mysql.createConnection(url);
 
 var users = require('./users.js');
-***REMOVED***
-***REMOVED***
-//   host     : process.env.RDS_HOSTNAME,
-//   user     : process.env.RDS_USERNAME,
-//   password : process.env.RDS_PASSWORD,
-//   port     : process.env.RDS_PORT,
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
 var connection = mysql.createConnection({
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  host     : "",
+  user     : "",
+  password : "",
   port     : 3306,
   database : "fyp"
 });

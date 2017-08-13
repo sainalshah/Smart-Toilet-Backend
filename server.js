@@ -56,7 +56,6 @@ app.use(xhub({
     ", Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     next();
   });
-  app.use('/messenger/webhook',botRouter);
   app.all('*', function(req, res, next){
     console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
     if (req.secure) {
@@ -66,6 +65,7 @@ app.use(xhub({
     res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
   });
 
+  app.use('/messenger/webhook',botRouter);
   var passport = require('passport');
   var flash    = require('connect-flash');
 
